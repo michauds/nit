@@ -165,7 +165,6 @@ redef class ModelBuilder
 	do
 		var mmodule = nmodule.mmodule.as(not null)
 		var objectclass = try_get_mclass_by_name(nmodule, mmodule, "Object")
-		var pointerclass = try_get_mclass_by_name(nmodule, mmodule, "Pointer")
 		var mclass = nclassdef.mclass.as(not null)
 		var mclassdef = nclassdef.mclassdef.as(not null)
 
@@ -185,16 +184,8 @@ redef class ModelBuilder
 				#print "new super : {mclass} < {mtype}"
 			end
 		end
-		if specobject and mclassdef.is_intro then
-			if mclass.kind == extern_kind then
-				if mclass.name == "Pointer" then
-					supertypes.add objectclass.mclass_type
-				else
-					supertypes.add pointerclass.mclass_type
-				end
-			else if mclass.name != "Object" and objectclass != null then
-				supertypes.add objectclass.mclass_type
-			end
+		if specobject and mclass.name != "Object" and objectclass != null and mclassdef.is_intro then
+			supertypes.add objectclass.mclass_type
 		end
 
 		mclassdef.set_supertypes(supertypes)
@@ -498,6 +489,9 @@ redef class AInterfaceClasskind
 end
 redef class AEnumClasskind
 	redef fun mkind do return enum_kind
+end
+redef class AUniversalClasskind
+    redef fun mkind do return universal_kind
 end
 redef class AExternClasskind
 	redef fun mkind do return extern_kind

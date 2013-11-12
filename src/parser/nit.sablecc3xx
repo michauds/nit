@@ -98,7 +98,8 @@ kwimport = 'import';
 kwclass = 'class';
 kwabstract = 'abstract';
 kwinterface = 'interface';
-kwenum = 'universal'|'enum';
+kwenum = 'enum';
+kwuniversal = 'universal';
 kwend = 'end';
 kwmeth = 'fun';
 kwtype = 'type';
@@ -234,6 +235,7 @@ classkind
 	| {abstract} kwabstract kwclass
 	| {interface} kwinterface
 	| {enum} kwenum
+    | {universal} kwuniversal
 	| {extern} kwextern kwclass?
 	;
 
@@ -753,6 +755,7 @@ classkind
 	| {abstract} kwabstract kwclass
 	| {interface} kwinterface
 	| {enum} kwenum
+    | {universal} kwuniversal
 	| {extern} kwextern kwclass?
 	;
 formaldef = [id]:classid type? annotations?;

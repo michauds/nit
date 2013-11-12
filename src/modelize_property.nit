@@ -560,7 +560,7 @@ redef class AAttrPropdef
 
 		if mclass.kind == interface_kind or mclassdef.mclass.kind == enum_kind then
 			modelbuilder.error(self, "Error: Attempt to define attribute {name} in the interface {mclass}.")
-		else if mclass.kind == enum_kind then
+		else if mclass.kind == enum_kind or mclass.kind == universal_kind then 
 			modelbuilder.error(self, "Error: Attempt to define attribute {name} in the enum class {mclass}.")
 		else if mclass.kind == extern_kind then
 			modelbuilder.error(self, "Error: Attempt to define attribute {name} in the extern class {mclass}.")

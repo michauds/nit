@@ -1044,6 +1044,44 @@ redef class AEnumClasskind
         v.enter_visit(_n_kwenum)
     end
 end
+redef class AUniversalClasskind
+    private init empty_init do end
+
+    init init_auniversalclasskind (
+            n_kwuniversal: nullable TKwuniversal
+    )
+    do
+        empty_init
+        _n_kwuniversal = n_kwuniversal.as(not null)
+	n_kwuniversal.parent = self
+    end
+
+    redef fun replace_child(old_child: ANode, new_child: nullable ANode)
+    do
+        if _n_kwuniversal == old_child then
+            if new_child != null then
+                new_child.parent = self
+		assert new_child isa TKwuniversal
+                _n_kwuniversal = new_child
+	    else
+		abort
+            end
+            return
+	end
+    end
+
+		redef fun n_kwuniversal=(node)
+		do
+			_n_kwuniversal = node
+			node.parent = self
+		end
+
+
+    redef fun visit_all(v: Visitor)
+    do
+        v.enter_visit(_n_kwuniversal)
+    end
+end
 redef class AExternClasskind
     private init empty_init do end
 

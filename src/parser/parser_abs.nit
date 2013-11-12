@@ -31,6 +31,9 @@ end
 class TKwenum
 	super Token
 end
+class TKwuniversal
+	super Token
+end
 class TKwend
 	super Token
 end
@@ -415,6 +418,10 @@ end
 class AEnumClasskind
 	super AClasskind
     readable var _n_kwenum: TKwenum
+end
+class AUniversalClasskind
+	super AClasskind
+    readable var _n_kwuniversal: TKwuniversal
 end
 class AExternClasskind
 	super AClasskind

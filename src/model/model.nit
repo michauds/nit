@@ -1120,10 +1120,12 @@ class MVirtualType
 		# If the reciever is a intern class, then the virtual type cannot be redefined since there is no possible subclass. self is just fixed. so simply return the resolution
 		if resolved_reciever isa MNullableType then resolved_reciever = resolved_reciever.mtype
 		if resolved_reciever.as(MClassType).mclass.kind == enum_kind then return res
+        if resolved_reciever.as(MClassType).mclass.kind == universal_kind then return res
 		# If the resolved type isa MVirtualType, it means that self was bound to it, and cannot be unbound. self is just fixed. so return the resolution.
 		if res isa MVirtualType then return res
 		# It the resolved type isa intern class, then there is no possible valid redefinition is any potentiel subclass. self is just fixed. so simply return the resolution
 		if res isa MClassType and res.mclass.kind == enum_kind then return res
+        if res isa MClassType and res.mclass.kind == universal_kind then return res
 		# TODO: Add 'fixed' virtual type in the specification.
 		# TODO: What if bound to a MParameterType?
 		# Note that Nullable types can always be redefined by the non nullable version, so there is no specific case on it.
@@ -1890,6 +1892,7 @@ end
 #  * `interface_kind`
 #  * `enum_kind`
 #  * `extern_kind`
+#  * `universal_kind`
 #
 # Note this class is basically an enum.
 # FIXME: use a real enum once user-defined enums are available
@@ -1910,3 +1913,4 @@ fun concrete_kind: MClassKind do return once new MClassKind("class", true)
 fun interface_kind: MClassKind do return once new MClassKind("interface", false)
 fun enum_kind: MClassKind do return once new MClassKind("enum", false)
 fun extern_kind: MClassKind do return once new MClassKind("extern", false)
+fun universal_kind: MClassKind do return once new MClassKind("universal", false)

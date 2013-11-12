@@ -244,6 +244,9 @@ end
 class TKwenum
 	super TokenKeyword
 end
+class TKwuniversal
+    super TokenKeyword
+end
 class TKwend
 	super TokenKeyword
 end
@@ -688,6 +691,10 @@ end
 class AEnumClasskind
 	super AClasskind
 	readable writable var _n_kwenum: TKwenum
+end
+class AUniversalClasskind
+    super AClasskind
+    readable writable var _n_kwuniversal: TKwuniversal
 end
 class AExternClasskind
 	super AClasskind

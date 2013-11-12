@@ -224,6 +224,10 @@ redef class MClass
 	fun is_enum: Bool do
 		return self.kind == enum_kind
 	end
+    
+    fun is_universal: Bool do
+        return self.kind == universal_kind
+    end
 
 	fun is_abstract: Bool do
 		return self.kind == abstract_kind

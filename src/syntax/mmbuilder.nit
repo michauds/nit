@@ -654,6 +654,7 @@ redef class AClasskind
 	fun is_interface: Bool do return false
 	fun is_enum: Bool do return false
 	fun is_abstract: Bool do return false
+    fun is_universal: Bool do return false
 	fun is_extern : Bool do return false
 end
 
@@ -662,6 +663,9 @@ redef class AInterfaceClasskind
 end
 redef class AEnumClasskind
 	redef fun is_enum do return true
+end
+redef class AUniversalClasskind
+    redef fun is_universal do return true
 end
 redef class AExternClasskind
 	redef fun is_extern do return true
