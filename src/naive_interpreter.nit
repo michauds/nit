@@ -525,6 +525,10 @@ abstract class Instance
 	fun val: Object do abort
 end
 
+class EnumInstance
+    super Instance
+end
+
 # A instance with attribute (standards objects)
 class MutableInstance
 	super Instance
@@ -1051,7 +1055,7 @@ redef class AClassdef
 			return null
 		end
 		var recv = args.first
-		assert recv isa MutableInstance
+        assert recv isa MutableInstance
 		var i = 1
 		# Collect undefined attributes
 		for npropdef in self.n_propdefs do
@@ -1644,18 +1648,33 @@ redef class ASuperExpr
 	end
 end
 
+redef class AConcreteInitPropdef
+         var enum_instances: nullable EnumInstance = null
+end   
+
 redef class ANewExpr
 	redef fun expr(v)
-	do
+    do
 		var mtype = v.unanchor_type(self.mtype.as(not null))
-		var recv: Instance = new MutableInstance(mtype)
+        # var recv: Instance = new MutableInstance(mtype)
+        # var recv: Instance = new EnumInstance(mtype)
+        # print mtype.class_name
+        var recv: Instance   
+
+        if mtype isa MClassType and mtype.mclass.kind == enum_kind then
+            recv = new EnumInstance(mtype)
+        else
+            recv = new MutableInstance(mtype)
+        end
+
 		v.init_instance(recv)
 		var args = [recv]
-		for a in self.n_args.n_exprs do
-			var i = v.expr(a)
-			if i == null then return null
-			args.add(i)
-		end
+        for a in self.n_args.n_exprs do
+            var i = v.expr(a)
+            if i == null then return null
+            args.add(i)
+        end
+        # mproperty will contain the name of the tag
 		var mproperty = self.mproperty.as(not null)
 		var res2 = v.send(mproperty, args)
 		if res2 != null then
